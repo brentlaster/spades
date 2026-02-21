@@ -26,6 +26,7 @@ export function GameTable({
   showHints, onToggleHints, difficulty, onSetDifficulty, coachMessage
 }: GameTableProps) {
   const [showScorePanel, setShowScorePanel] = useState(false);
+  const [showCoach, setShowCoach] = useState(false);
 
   return (
     <div className="h-[100dvh] flex flex-col relative overflow-hidden">
@@ -36,12 +37,20 @@ export function GameTable({
           <span className="text-white/40 text-xs md:text-sm">R{state.roundNumber}</span>
         </div>
 
-        {/* Mobile: mini score + score toggle */}
-        <div className="flex md:hidden items-center gap-2">
+        {/* Mobile controls */}
+        <div className="flex md:hidden items-center gap-1.5">
           <MiniScore state={state} />
+          {coachMessage && (
+            <button
+              onClick={() => { setShowCoach(!showCoach); setShowScorePanel(false); }}
+              className={`px-2 py-1 rounded-lg text-xs ${showCoach ? 'bg-purple-600 text-white' : 'bg-white/10 text-white/70'}`}
+            >
+              Coach
+            </button>
+          )}
           <button
-            onClick={() => setShowScorePanel(!showScorePanel)}
-            className="bg-white/10 text-white/70 px-2 py-1 rounded-lg text-xs"
+            onClick={() => { setShowScorePanel(!showScorePanel); setShowCoach(false); }}
+            className={`px-2 py-1 rounded-lg text-xs ${showScorePanel ? 'bg-blue-600 text-white' : 'bg-white/10 text-white/70'}`}
           >
             {showScorePanel ? 'Hide' : 'Score'}
           </button>
@@ -69,7 +78,7 @@ export function GameTable({
         </div>
       </div>
 
-      {/* Mobile score panel overlay */}
+      {/* Mobile overlay panels */}
       {showScorePanel && (
         <div className="md:hidden absolute top-12 left-0 right-0 z-50 p-3 animate-slide-in">
           <ScoreBoard state={state} />
@@ -95,6 +104,15 @@ export function GameTable({
         </div>
       )}
 
+      {showCoach && coachMessage && (
+        <div className="md:hidden absolute top-12 left-0 right-0 z-50 p-3 animate-slide-in">
+          <div className="bg-purple-900/80 backdrop-blur-sm rounded-xl p-4">
+            <div className="text-purple-300 font-semibold mb-2">AI Coach</div>
+            <p className="text-white/90 text-sm leading-relaxed">{coachMessage}</p>
+          </div>
+        </div>
+      )}
+
       {/* Main table area */}
       <div className="flex-1 flex min-h-0">
         {/* Left scoreboard - desktop only */}
@@ -109,7 +127,7 @@ export function GameTable({
         </div>
 
         {/* Center play area */}
-        <div className="flex-1 flex flex-col justify-between py-2 md:py-4 min-h-0">
+        <div className="flex-1 flex flex-col justify-between py-1 md:py-4 min-h-0 w-full overflow-hidden">
           {/* North player (partner) */}
           <div className="text-center px-2">
             <PlayerLabel player={state.players.north} isCurrentPlayer={state.currentPlayer === 'north'} />
@@ -123,19 +141,23 @@ export function GameTable({
           </div>
 
           {/* Middle row: West - Trick - East */}
-          <div className="flex items-center justify-center gap-2 md:gap-8 px-1 min-h-0">
-            {/* West player */}
-            <div className="text-center flex-shrink-0">
+          <div className="flex items-center justify-between px-1 md:px-4 min-h-0 w-full">
+            {/* West player - compact on mobile */}
+            <div className="text-center w-12 md:w-auto flex-shrink-0">
               <PlayerLabel player={state.players.west} isCurrentPlayer={state.currentPlayer === 'west'} compact />
-              <div className="flex flex-col items-center mt-1">
-                {state.players.west.hand.slice(0, Math.min(state.players.west.hand.length, 4)).map((_, i) => (
+              <div className="hidden md:flex flex-col items-center mt-1">
+                {state.players.west.hand.slice(0, 4).map((_, i) => (
                   <CardBack key={i} small className="rotate-90" style={{ marginTop: i > 0 ? '-58px' : '0' }} />
                 ))}
+              </div>
+              {/* Mobile: just show card count */}
+              <div className="md:hidden text-[10px] text-white/40 mt-1">
+                {state.players.west.hand.length} cards
               </div>
             </div>
 
             {/* Trick area / Bidding / Panels */}
-            <div className="flex-shrink-0 flex-1 flex justify-center max-w-sm">
+            <div className="flex-1 flex justify-center min-w-0 mx-1 md:mx-4">
               {state.phase === 'bidding' ? (
                 <BiddingPanel state={state} onBid={onBid} />
               ) : state.phase === 'roundEnd' ? (
@@ -143,25 +165,21 @@ export function GameTable({
               ) : state.phase === 'gameOver' ? (
                 <GameOverPanel state={state} onNewGame={onNewGame} />
               ) : (
-                <div className="flex flex-col items-center gap-1">
-                  <TrickArea trick={state.currentTrick} message={state.message} />
-                  {/* Mobile coach message */}
-                  {coachMessage && (
-                    <div className="md:hidden bg-purple-900/40 rounded-lg px-3 py-1.5 text-xs text-white/80 max-w-[250px] text-center">
-                      {coachMessage}
-                    </div>
-                  )}
-                </div>
+                <TrickArea trick={state.currentTrick} message={state.message} />
               )}
             </div>
 
-            {/* East player */}
-            <div className="text-center flex-shrink-0">
+            {/* East player - compact on mobile */}
+            <div className="text-center w-12 md:w-auto flex-shrink-0">
               <PlayerLabel player={state.players.east} isCurrentPlayer={state.currentPlayer === 'east'} compact />
-              <div className="flex flex-col items-center mt-1">
-                {state.players.east.hand.slice(0, Math.min(state.players.east.hand.length, 4)).map((_, i) => (
+              <div className="hidden md:flex flex-col items-center mt-1">
+                {state.players.east.hand.slice(0, 4).map((_, i) => (
                   <CardBack key={i} small className="rotate-90" style={{ marginTop: i > 0 ? '-58px' : '0' }} />
                 ))}
+              </div>
+              {/* Mobile: just show card count */}
+              <div className="md:hidden text-[10px] text-white/40 mt-1">
+                {state.players.east.hand.length} cards
               </div>
             </div>
           </div>
@@ -190,7 +208,7 @@ export function GameTable({
 
 function PlayerLabel({ player, isCurrentPlayer, compact }: { player: any; isCurrentPlayer: boolean; compact?: boolean }) {
   return (
-    <div className={`inline-flex items-center gap-1 md:gap-2 px-2 md:px-3 py-0.5 md:py-1 rounded-full text-xs md:text-sm ${
+    <div className={`inline-flex items-center gap-1 md:gap-2 px-2 md:px-3 py-0.5 md:py-1 rounded-full text-[10px] md:text-sm ${
       isCurrentPlayer ? 'bg-gold/20 text-gold ring-1 ring-gold animate-pulse-slow' : 'bg-white/5 text-white/70'
     }`}>
       <span className="font-semibold">{player.name}</span>

@@ -155,6 +155,16 @@ body {
   }
 }
 
+/* Mobile card overlap */
+.mobile-card-overlap {
+  --card-overlap: var(--card-overlap-mobile);
+}
+@media (min-width: 768px) {
+  .mobile-card-overlap {
+    --card-overlap: var(--card-overlap-desktop);
+  }
+}
+
 /* Animations */
 @keyframes dealCard {
   from { transform: translate(0, -200px) rotate(-20deg); opacity: 0; }

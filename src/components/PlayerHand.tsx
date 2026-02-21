@@ -37,12 +37,14 @@ export function PlayerHand({
 
   const legalPlays = isCurrentPlayer ? getLegalPlays(cards, trick, spadesBroken) : [];
 
-  // Calculate overlap based on card count to fit on screen
+  // On mobile (60px cards), we have ~390px width. Overlap cards so they all fit.
+  // Formula: totalWidth = cardWidth + (count-1) * (cardWidth + overlap)
+  // Solve for overlap to fit in container: overlap = (containerWidth - cardWidth) / (count-1) - cardWidth
+  // We use negative margins to overlap.
   const cardCount = cards.length;
-  const overlapPx = cardCount > 8 ? Math.max(-20, -(cardCount - 6) * 4) : 0;
 
   return (
-    <div className="flex justify-center items-end px-1 md:px-4 overflow-x-auto">
+    <div className="flex justify-center items-end px-1 md:px-4">
       {cards.map((card, i) => {
         const isLegal = legalPlays.some(c => sameCard(c, card));
         const isSelected = selectedCard && sameCard(selectedCard, card);
@@ -50,14 +52,21 @@ export function PlayerHand({
           ? getPlayHint(card, cards, trick, gameState)
           : undefined;
 
+        // Mobile: overlap so 13 cards fit in ~370px with 60px cards
+        // Desktop: overlap so 13 cards fit comfortably with 80px cards
+        const mobileOverlap = cardCount > 1 ? -Math.max(15, (cardCount * 60 - 370) / (cardCount - 1)) : 0;
+        const desktopOverlap = cardCount > 1 ? -Math.max(0, (cardCount * 80 - 700) / (cardCount - 1)) : 0;
+
         return (
           <div
             key={`${card.rank}-${card.suit}`}
-            className="animate-deal"
+            className="animate-deal mobile-card-overlap"
             style={{
               animationDelay: `${i * 0.03}s`,
-              marginLeft: i > 0 ? `${overlapPx}px` : '0',
-            }}
+              marginLeft: i > 0 ? `var(--card-overlap)` : '0',
+              '--card-overlap-mobile': `${mobileOverlap}px`,
+              '--card-overlap-desktop': `${desktopOverlap}px`,
+            } as React.CSSProperties}
           >
             <CardView
               card={card}
