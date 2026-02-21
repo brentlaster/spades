@@ -26,7 +26,6 @@ export function getLegalPlays(hand: Card[], trick: Trick, spadesBroken: boolean)
 
 /** Determine the winner of a completed trick */
 export function getTrickWinner(trick: Trick): PlayerPosition {
-  const leadSuit = trick.cards[0].card.suit;
   let winningEntry = trick.cards[0];
 
   for (let i = 1; i < trick.cards.length; i++) {

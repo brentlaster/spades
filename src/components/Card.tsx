@@ -20,7 +20,6 @@ export function CardView({ card, onClick, selected, disabled, small, faceDown, s
 
   const symbol = SUIT_SYMBOLS[card.suit];
   const color = SUIT_COLORS[card.suit];
-  const isRed = card.suit === 'hearts' || card.suit === 'diamonds';
 
   return (
     <div

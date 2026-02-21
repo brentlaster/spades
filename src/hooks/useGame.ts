@@ -1,8 +1,8 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { GameState, GamePhase, Card, PlayerPosition, Trick } from '../game/types';
-import { POSITION_ORDER, getNextPlayer, getTeam, getPartner, sameCard } from '../game/types';
+import type { GameState, Card, PlayerPosition, Trick } from '../game/types';
+import { POSITION_ORDER, getNextPlayer, sameCard } from '../game/types';
 import { createDeck, deal } from '../game/deck';
-import { getLegalPlays, getTrickWinner, calculateTeamRoundScore, isGameOver } from '../game/rules';
+import { getLegalPlays, getTrickWinner, calculateTeamRoundScore } from '../game/rules';
 import type { AIDifficulty } from '../game/ai';
 import { aiBid, aiPlayCard } from '../game/ai';
 

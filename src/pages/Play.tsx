@@ -11,7 +11,7 @@ export function Play({ onHome, onLearn }: PlayProps) {
   const {
     state, difficulty, showHints, coachMessage,
     startGame, startNewRound, playCard, placeBid,
-    setDifficulty, setShowHints, setCoachMessage
+    setDifficulty, setShowHints
   } = useGame();
 
   if (state.phase === 'idle') {

@@ -1,5 +1,5 @@
 import type { Card, GameState, PlayerPosition, Trick } from './types';
-import { RANK_VALUES, getPartner, getTeam } from './types';
+import { RANK_VALUES, getPartner } from './types';
 import { getLegalPlays, getTrickWinner } from './rules';
 
 export type AIDifficulty = 'beginner' | 'intermediate' | 'advanced';
@@ -141,7 +141,6 @@ function advancedPlay(
 ): Card {
   const partner = getPartner(position);
   const player = state.players[position];
-  const teamKey = getTeam(position);
   const partnerPlayer = state.players[partner];
   const teamTricks = player.tricksWon + partnerPlayer.tricksWon;
   const teamBid = (player.bid || 0) + (partnerPlayer.bid || 0);

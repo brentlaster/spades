@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import type { GameState, PlayerPosition } from '../game/types';
-import { POSITION_ORDER, getPartner, SUIT_SYMBOLS } from '../game/types';
+import type { GameState } from '../game/types';
+import { POSITION_ORDER, SUIT_SYMBOLS } from '../game/types';
 
 interface BiddingPanelProps {
   state: GameState;
@@ -9,10 +9,6 @@ interface BiddingPanelProps {
 
 export function BiddingPanel({ state, onBid }: BiddingPanelProps) {
   const [selectedBid, setSelectedBid] = useState<number | null>(null);
-  const player = state.players.south;
-
-  // Show all bids so far
-  const bidOrder = getBidOrder(state.dealer);
 
   return (
     <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-3 md:p-6 max-w-md mx-auto animate-slide-in">
@@ -113,13 +109,4 @@ export function BiddingPanel({ state, onBid }: BiddingPanelProps) {
       )}
     </div>
   );
-}
-
-function getBidOrder(dealer: PlayerPosition): PlayerPosition[] {
-  const idx = POSITION_ORDER.indexOf(dealer);
-  const order: PlayerPosition[] = [];
-  for (let i = 1; i <= 4; i++) {
-    order.push(POSITION_ORDER[(idx + i) % 4]);
-  }
-  return order;
 }

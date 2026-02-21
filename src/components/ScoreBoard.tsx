@@ -1,4 +1,4 @@
-import type { GameState, PlayerPosition } from '../game/types';
+import type { GameState } from '../game/types';
 
 interface ScoreBoardProps {
   state: GameState;

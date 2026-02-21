@@ -1,5 +1,4 @@
 import type { Trick, PlayerPosition } from '../game/types';
-import { SUIT_SYMBOLS } from '../game/types';
 import { CardView } from './Card';
 
 interface TrickAreaProps {

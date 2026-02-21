@@ -1,4 +1,4 @@
-import type { Card, GameState, PlayerPosition } from '../game/types';
+import type { Card, GameState } from '../game/types';
 import { SUIT_SYMBOLS } from '../game/types';
 import { PlayerHand } from './PlayerHand';
 import { TrickArea } from './TrickArea';
