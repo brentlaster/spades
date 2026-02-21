@@ -1,0 +1,228 @@
+@import "tailwindcss";
+
+@theme {
+  --color-felt: #1a6b3c;
+  --color-felt-dark: #145a30;
+  --color-felt-light: #2a8b4c;
+  --color-gold: #d4a843;
+  --color-gold-light: #e8c96a;
+  --color-card-back: #1e3a5f;
+  --color-spade: #1a1a2e;
+}
+
+:root {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a2e1a 0%, #1a6b3c 50%, #0a2e1a 100%);
+  color: white;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Safe areas for iOS notch/home indicator */
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Card styles */
+.card {
+  width: 60px;
+  height: 84px;
+  border-radius: 6px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 768px) {
+  .card {
+    width: 80px;
+    height: 112px;
+    border-radius: 8px;
+  }
+}
+
+.card:hover:not(.card-disabled) {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+/* On touch devices, use active instead of hover */
+@media (hover: none) {
+  .card:hover:not(.card-disabled) {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .card:active:not(.card-disabled) {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  }
+}
+
+.card.card-selected {
+  transform: translateY(-12px);
+  box-shadow: 0 12px 24px rgba(212, 168, 67, 0.5);
+  outline: 2px solid var(--color-gold);
+}
+
+@media (min-width: 768px) {
+  .card.card-selected {
+    transform: translateY(-16px);
+    outline: 3px solid var(--color-gold);
+  }
+}
+
+.card.card-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.card-back {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2a5080 50%, #1e3a5f 100%);
+  border: 2px solid #3a6090;
+  width: 60px;
+  height: 84px;
+  border-radius: 6px;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .card-back {
+    width: 80px;
+    height: 112px;
+    border-radius: 8px;
+  }
+}
+
+.card-back::after {
+  content: '\2660';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: rgba(255,255,255,0.3);
+}
+
+@media (min-width: 768px) {
+  .card-back::after {
+    font-size: 32px;
+  }
+}
+
+.card-sm {
+  width: 40px;
+  height: 56px;
+  font-size: 0.65rem;
+}
+
+.card-sm.card-back {
+  width: 40px;
+  height: 56px;
+}
+
+.card-sm.card-back::after {
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  .card-sm {
+    width: 56px;
+    height: 78px;
+    font-size: 0.75rem;
+  }
+  .card-sm.card-back {
+    width: 56px;
+    height: 78px;
+  }
+  .card-sm.card-back::after {
+    font-size: 22px;
+  }
+}
+
+/* Animations */
+@keyframes dealCard {
+  from { transform: translate(0, -200px) rotate(-20deg); opacity: 0; }
+  to { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.animate-deal {
+  animation: dealCard 0.4s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 3px;
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+}
+.tooltip .tooltip-text {
+  visibility: hidden;
+  background: rgba(0,0,0,0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 100;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+}
