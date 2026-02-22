@@ -418,7 +418,10 @@ export function Learn({ onStartGame }: { onStartGame: () => void }) {
     <div className="min-h-[100dvh] flex flex-col">
       {/* Header */}
       <div className="bg-black/20 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between safe-top">
-        <h1 className="text-lg md:text-2xl font-bold text-gold">{SUIT_SYMBOLS.spades} Learn Spades</h1>
+        <div>
+          <h1 className="text-lg md:text-2xl font-bold text-gold">{SUIT_SYMBOLS.spades} Learn Spades</h1>
+          <p className="text-[10px] md:text-xs text-white/30">by Tech Skills Transformations &copy; 2026</p>
+        </div>
         <button
           onClick={onStartGame}
           className="bg-gold text-black px-4 md:px-6 py-1.5 md:py-2 rounded-xl font-bold text-sm md:text-base hover:bg-gold-light transition-all cursor-pointer"

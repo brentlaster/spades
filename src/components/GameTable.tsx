@@ -33,8 +33,10 @@ export function GameTable({
       {/* Top bar */}
       <div className="flex justify-between items-center px-3 md:px-4 py-2 bg-black/20 safe-top">
         <div className="flex items-center gap-2 md:gap-3">
-          <h1 className="text-gold font-bold text-base md:text-lg">{SUIT_SYMBOLS.spades} Spades</h1>
-          <span className="text-white/40 text-xs md:text-sm">R{state.roundNumber}</span>
+          <div>
+            <h1 className="text-gold font-bold text-base md:text-lg leading-tight">{SUIT_SYMBOLS.spades} Spades <span className="text-white/40 text-xs md:text-sm font-normal">R{state.roundNumber}</span></h1>
+            <p className="text-[9px] md:text-[11px] text-white/25 leading-tight">by Tech Skills Transformations &copy; 2026</p>
+          </div>
         </div>
 
         {/* Mobile controls */}

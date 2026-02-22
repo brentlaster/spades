@@ -66,6 +66,11 @@ export function Play({ onHome, onLearn }: PlayProps) {
               </button>
             </div>
           </div>
+
+          <div className="mt-6 text-white/40 text-xs">
+            <p>by Tech Skills Transformations</p>
+            <p className="mt-0.5">&copy; 2026 Tech Skills Transformations</p>
+          </div>
         </div>
       </div>
     );

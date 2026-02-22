@@ -63,6 +63,12 @@ export function Home({ onStartGame, onLearn }: HomeProps) {
           <p className="text-white/60 text-xs md:text-sm">Get coaching tips and card play suggestions as you learn</p>
         </div>
       </div>
+
+      {/* Footer */}
+      <div className="mt-8 md:mt-12 text-center text-white/40 text-xs md:text-sm">
+        <p>by Tech Skills Transformations</p>
+        <p className="mt-1">&copy; 2026 Tech Skills Transformations. All rights reserved.</p>
+      </div>
     </div>
   );
 }

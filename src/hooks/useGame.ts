@@ -118,7 +118,7 @@ export function useGame() {
           phase: 'playing',
           currentPlayer: firstPlayer,
           currentTrick: { cards: [], leader: firstPlayer },
-          message: `All bids placed! ${newPlayers[firstPlayer].name} leads.`,
+          message: `All bids placed! ${newPlayers[firstPlayer].name} ${firstPlayer === 'south' ? 'lead' : 'leads'}.`,
         };
       }
 
@@ -126,7 +126,7 @@ export function useGame() {
         ...prev,
         players: newPlayers,
         currentPlayer: nextPlayer,
-        message: `${newPlayers[prev.currentPlayer].name} bids ${bid === 0 ? 'Nil' : bid}.`,
+        message: `${newPlayers[prev.currentPlayer].name} ${prev.currentPlayer === 'south' ? 'bid' : 'bids'} ${bid === 0 ? 'Nil' : bid}.`,
       };
     });
   }, []);
@@ -215,7 +215,7 @@ export function useGame() {
           spadesBroken,
           phase: gameOver ? 'gameOver' : 'roundEnd',
           currentPlayer: winner,
-          message: `${newPlayers[winner].name} wins the last trick! Round over.`,
+          message: `${newPlayers[winner].name} ${winner === 'south' ? 'win' : 'wins'} the last trick! Round over.`,
           lastTrickWinner: winner,
         };
       }
@@ -229,7 +229,7 @@ export function useGame() {
         spadesBroken,
         phase: 'trickEnd',
         currentPlayer: winner,
-        message: `${newPlayers[winner].name} wins the trick!`,
+        message: `${newPlayers[winner].name} ${winner === 'south' ? 'win' : 'wins'} the trick!`,
         lastTrickWinner: winner,
       };
     }
@@ -242,7 +242,7 @@ export function useGame() {
       currentTrick: newTrick,
       spadesBroken,
       currentPlayer: nextPlayer,
-      message: `${newPlayers[player].name} plays ${card.rank} of ${card.suit}. ${newPlayers[nextPlayer].name}'s turn.`,
+      message: `${newPlayers[player].name} ${player === 'south' ? 'play' : 'plays'} ${card.rank} of ${card.suit}. ${newPlayers[nextPlayer].name}'s turn.`,
     };
   }
 
@@ -255,7 +255,7 @@ export function useGame() {
           ...prev,
           phase: 'playing',
           currentTrick: { cards: [], leader: prev.lastTrickWinner! },
-          message: `${prev.players[prev.lastTrickWinner!].name} leads.`,
+          message: `${prev.players[prev.lastTrickWinner!].name} ${prev.lastTrickWinner === 'south' ? 'lead' : 'leads'}.`,
         }));
       }, 1200);
       return () => clearTimeout(timer);
