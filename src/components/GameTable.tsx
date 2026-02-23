@@ -136,7 +136,7 @@ export function GameTable({
             <div className="mt-1">
               <div className="flex justify-center">
                 {state.players.north.hand.map((_, i) => (
-                  <CardBack key={i} small style={{ marginLeft: i > 0 ? '-32px' : '0' }} />
+                  <CardBack key={i} small style={{ marginLeft: i > 0 ? '-36px' : '0' }} />
                 ))}
               </div>
             </div>

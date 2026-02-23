@@ -52,9 +52,9 @@ export function PlayerHand({
           ? getPlayHint(card, cards, trick, gameState)
           : undefined;
 
-        // Mobile: overlap so 13 cards fit in ~370px with 60px cards
+        // Mobile: overlap so 13 cards fit in ~370px with 72px cards
         // Desktop: overlap so 13 cards fit comfortably with 80px cards
-        const mobileOverlap = cardCount > 1 ? -Math.max(15, (cardCount * 60 - 370) / (cardCount - 1)) : 0;
+        const mobileOverlap = cardCount > 1 ? -Math.max(20, (cardCount * 72 - 370) / (cardCount - 1)) : 0;
         const desktopOverlap = cardCount > 1 ? -Math.max(0, (cardCount * 80 - 700) / (cardCount - 1)) : 0;
 
         return (

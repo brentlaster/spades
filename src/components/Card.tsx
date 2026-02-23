@@ -29,20 +29,20 @@ export function CardView({ card, onClick, selected, disabled, small, faceDown, s
       title={hint}
     >
       {/* Top-left rank and suit */}
-      <div className="absolute top-1 left-1.5 leading-tight" style={{ fontSize: small ? '0.6rem' : '0.75rem' }}>
+      <div className="absolute top-0.5 left-1 leading-tight" style={{ fontSize: small ? '0.65rem' : '0.85rem' }}>
         <div className="font-bold">{card.rank}</div>
-        <div className="-mt-1">{symbol}</div>
+        <div className="-mt-0.5">{symbol}</div>
       </div>
 
       {/* Center suit */}
-      <div className="absolute inset-0 flex items-center justify-center" style={{ fontSize: small ? '1.5rem' : '2rem' }}>
+      <div className="absolute inset-0 flex items-center justify-center" style={{ fontSize: small ? '1.4rem' : '2.2rem' }}>
         {symbol}
       </div>
 
       {/* Bottom-right rank and suit (inverted) */}
-      <div className="absolute bottom-1 right-1.5 leading-tight rotate-180" style={{ fontSize: small ? '0.6rem' : '0.75rem' }}>
+      <div className="absolute bottom-0.5 right-1 leading-tight rotate-180" style={{ fontSize: small ? '0.65rem' : '0.85rem' }}>
         <div className="font-bold">{card.rank}</div>
-        <div className="-mt-1">{symbol}</div>
+        <div className="-mt-0.5">{symbol}</div>
       </div>
     </div>
   );

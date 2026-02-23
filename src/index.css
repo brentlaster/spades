@@ -35,9 +35,9 @@ body {
 
 /* Card styles */
 .card {
-  width: 60px;
-  height: 84px;
-  border-radius: 6px;
+  width: 72px;
+  height: 101px;
+  border-radius: 7px;
   background: white;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   transition: transform 0.15s, box-shadow 0.15s;
@@ -94,9 +94,9 @@ body {
 .card-back {
   background: linear-gradient(135deg, #1e3a5f 0%, #2a5080 50%, #1e3a5f 100%);
   border: 2px solid #3a6090;
-  width: 60px;
-  height: 84px;
-  border-radius: 6px;
+  width: 72px;
+  height: 101px;
+  border-radius: 7px;
   position: relative;
 }
 
@@ -115,7 +115,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 28px;
   color: rgba(255,255,255,0.3);
 }
 
@@ -126,18 +126,18 @@ body {
 }
 
 .card-sm {
-  width: 40px;
-  height: 56px;
-  font-size: 0.65rem;
+  width: 48px;
+  height: 67px;
+  font-size: 0.7rem;
 }
 
 .card-sm.card-back {
-  width: 40px;
-  height: 56px;
+  width: 48px;
+  height: 67px;
 }
 
 .card-sm.card-back::after {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 @media (min-width: 768px) {
