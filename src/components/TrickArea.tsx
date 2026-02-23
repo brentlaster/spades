@@ -16,7 +16,7 @@ const POSITION_STYLES: Record<PlayerPosition, React.CSSProperties> = {
 
 export function TrickArea({ trick, message }: TrickAreaProps) {
   return (
-    <div className="relative w-44 h-36 md:w-64 md:h-48 mx-auto">
+    <div className="relative w-52 h-40 md:w-64 md:h-48 mx-auto">
       {/* Center message */}
       {message && trick.cards.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center">

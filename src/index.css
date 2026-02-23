@@ -126,18 +126,18 @@ body {
 }
 
 .card-sm {
-  width: 48px;
-  height: 67px;
-  font-size: 0.7rem;
+  width: 56px;
+  height: 78px;
+  font-size: 0.75rem;
 }
 
 .card-sm.card-back {
-  width: 48px;
-  height: 67px;
+  width: 56px;
+  height: 78px;
 }
 
 .card-sm.card-back::after {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 @media (min-width: 768px) {
