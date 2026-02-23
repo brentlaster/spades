@@ -6,6 +6,55 @@ import { getLegalPlays, getTrickWinner, calculateTeamRoundScore } from '../game/
 import type { AIDifficulty } from '../game/ai';
 import { aiBid, aiPlayCard } from '../game/ai';
 
+function getClientCoachAdvice(phase: string, hand: Card[], bid: number | null, tricksWon: number, trickCards: number): string {
+  if (phase === 'bidding') {
+    const aces = hand.filter(c => c.rank === 'A').length;
+    const kings = hand.filter(c => c.rank === 'K').length;
+    const spades = hand.filter(c => c.suit === 'spades').length;
+
+    if (aces >= 3) return `You have ${aces} Aces — that's a strong hand! Consider bidding at least ${aces}.`;
+    if (spades >= 5) return `With ${spades} spades, you have great trump power. Bid aggressively on those trumps.`;
+    if (kings >= 2 && aces >= 1) return `With ${aces} Ace(s) and ${kings} Kings, you have a solid hand. Bid around ${aces + Math.floor(kings / 2)}.`;
+    if (aces === 0 && kings <= 1) return 'Your hand is weak on high cards. Consider a conservative bid of 1 or 2.';
+    if (spades === 0) return 'You have no spades to trump with — bid carefully and rely on your high off-suit cards.';
+    return `You have ${aces} Ace(s) and ${spades} spade(s). Count your sure tricks and bid accordingly.`;
+  }
+
+  const cardsLeft = hand.length;
+  const currentBid = bid ?? 0;
+
+  if (tricksWon >= currentBid && currentBid > 0) {
+    return `You've already made your bid of ${currentBid}! Play low cards to avoid collecting bags.`;
+  }
+  if (currentBid > 0 && currentBid - tricksWon > cardsLeft) {
+    return `You need ${currentBid - tricksWon} more tricks with only ${cardsLeft} cards left. Play your strongest cards.`;
+  }
+  if (currentBid > 0 && tricksWon < currentBid && currentBid - tricksWon === cardsLeft) {
+    return 'You need to win every remaining trick to make your bid. Lead with your strongest cards!';
+  }
+  if (trickCards === 0) {
+    const aces = hand.filter(c => c.rank === 'A').length;
+    if (aces > 0) return "You're leading — consider playing an Ace to guarantee this trick.";
+    return "You're leading the trick. Try a card from your longest suit to draw out high cards.";
+  }
+  if (trickCards === 3) {
+    return "You're playing last — you can see all the cards. Win it cheaply or dump a low card.";
+  }
+  if (currentBid > 0 && tricksWon === currentBid - 1) {
+    return `Just ${currentBid - tricksWon} more trick to make your bid. Choose carefully!`;
+  }
+
+  const tips = [
+    'If your partner is winning the trick, play your lowest card to save your high ones.',
+    'Try to lead with your Aces early to guarantee those tricks.',
+    'Watch what suits the opponents are out of — they might trump your winners!',
+    'Keep track of how many spades have been played.',
+    "If you're short in a suit, that's a chance to trump when it's led.",
+    'Save at least one high spade for late in the round when it counts most.',
+  ];
+  return tips[Math.floor(Math.random() * tips.length)];
+}
+
 const PLAYER_NAMES: Record<PlayerPosition, string> = {
   south: 'You',
   west: 'Maya',
@@ -306,7 +355,15 @@ export function useGame() {
     })
       .then(r => r.json())
       .then(data => setCoachMessage(data.message))
-      .catch(() => {}); // Silently fail if server not running
+      .catch(() => {
+        setCoachMessage(getClientCoachAdvice(
+          state.phase,
+          state.players.south.hand,
+          state.players.south.bid,
+          state.players.south.tricksWon,
+          state.currentTrick.cards.length,
+        ));
+      });
 
     return () => controller.abort();
   }, [state.phase, state.currentPlayer, state.completedTricks.length, state.currentTrick.cards.length, state.players.south.hand.length]);
