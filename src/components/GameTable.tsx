@@ -107,10 +107,15 @@ export function GameTable({
       )}
 
       {showCoach && coachMessage && (
-        <div className="md:hidden absolute top-12 left-0 right-0 z-50 p-3 animate-slide-in">
-          <div className="bg-purple-900/80 backdrop-blur-sm rounded-xl p-4">
-            <div className="text-purple-300 font-semibold mb-2">AI Coach</div>
-            <p className="text-white/90 text-sm leading-relaxed">{coachMessage}</p>
+        <div className="md:hidden absolute top-12 left-0 right-0 bottom-0 z-50" onClick={() => setShowCoach(false)}>
+          <div className="p-3 animate-slide-in">
+            <div className="bg-purple-900/80 backdrop-blur-sm rounded-xl p-4" onClick={e => e.stopPropagation()}>
+              <div className="flex justify-between items-center mb-2">
+                <div className="text-purple-300 font-semibold">AI Coach</div>
+                <button onClick={() => setShowCoach(false)} className="text-white/50 text-lg px-2">✕</button>
+              </div>
+              <p className="text-white/90 text-sm leading-relaxed">{coachMessage}</p>
+            </div>
           </div>
         </div>
       )}
