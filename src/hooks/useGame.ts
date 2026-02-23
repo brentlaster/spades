@@ -309,7 +309,7 @@ export function useGame() {
       .catch(() => {}); // Silently fail if server not running
 
     return () => controller.abort();
-  }, [state.phase, state.currentPlayer, state.completedTricks.length]);
+  }, [state.phase, state.currentPlayer, state.completedTricks.length, state.currentTrick.cards.length, state.players.south.hand.length]);
 
   return {
     state,
